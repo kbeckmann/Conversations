@@ -12,5 +12,9 @@ android:
     - extra-google-google_play_services
   licenses:
     - '.+'
+addons:
+  artifacts:
+    paths:
+    - $(find -name "*.apk")
 script:
     - ./gradlew assembleFreeRelease
