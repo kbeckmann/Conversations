@@ -26,4 +26,6 @@ deploy:
   file: "${RELEASE_PKG_FILE}"
   on:
     repo: kbeckmann/Conversations
+    tags: true
+    all_branches: true
 
