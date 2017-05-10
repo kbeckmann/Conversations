@@ -1,16 +1,31 @@
 language: android
 jdk:
-  - oraclejdk8
+- oraclejdk8
 android:
   components:
-    - platform-tools
-    - tools
-    - build-tools-25.0.2
-    - android-25
-    - extra-android-m2repository
-    - extra-google-m2repository
-    - extra-google-google_play_services
+  - platform-tools
+  - tools
+  - build-tools-25.0.2
+  - android-25
+  - extra-android-m2repository
+  - extra-google-m2repository
+  - extra-google-google_play_services
   licenses:
-    - '.+'
+  - ".+"
 script:
-    - ./gradlew assembleFreeRelease
+- "./gradlew assembleFreeRelease"
+- "find . -name '*.apk'"
+before_deploy:
+- export RELEASE_PKG_FILE=$(find . -name '*.apk')
+- echo "deploying $RELEASE_PKG_FILE to GitHub releases"
+deploy:
+  provider: releases
+  api_key:
+    secure: mJ1IPzzyZeO6phOOHJqgdGG6fG/ZmTWo9arTdStHGZq11caq1o2UqDuwan9+hZBon9HcbNCNIm7pVM1yAN9l1jG2mcJE2tM18+Bt5XjePJh6hVF/NC5OyklW+zeWegWF4RgxLRLT65baVsnBcD9IAHc/xOQ1eUAfGuu/v5N4YnmxRSfpe9uVLchokQ31izIM1wAqa93DmbEkPQMRh91CI/YJrs1QnEiX3FBCDC4Am4gA/TBnRcyH5RTCsOls98gz2xQJsXAz5tf0yi0BT64fALUnhAJwlAQp6EFM8rhAmYLXpYkk0BoEQ/i6eJhAtKDzNebd2zPkbUXI26t02OOWEJEEfqsfY0s+SV/wWnb9zL5mdquv5EvGfozk+hjT+X01E9j1oEPpxOLI9XnL2KhGU+54kAPbu6al//UNCKPIH9e0C6198vMt9T8nf2zsUm5zhzCdP3Q2IDVe0Iqo9prlGrQmIrfTl/lpeMZmVNip9T4cADF+g7hSXKfxi3NZaLwDAs3+iGI+eDIAntQkrRpi3kGrudJKh7oR1X0bj+0K2NDZVZyM5aXxQxfnXDRriYOmL0WfzsMa0kkwEnCmNDmqlfbDT3/KUiXXz08+eCpPxyyjmLOWylbV1KYZRHU2HDdDG1LLdMMUFgwT0Oew792v43NFME/LOBqD74m4v2SY9yw=
+  file_glob: true
+  file: "${RELEASE_PKG_FILE}"
+  on:
+    repo: kbeckmann/Conversations
+    tags: true
+    all_branches: true
+
